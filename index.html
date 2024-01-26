@@ -1,0 +1,153 @@
+<html>
+
+<head>
+    <title>Stop Watch Game</title>
+    <script>
+
+        var startTime = undefined;
+        var tickInterval = undefined;
+        var high = 0;
+        var current = 0;
+
+        function tick() {
+            const diff = Date.now() - startTime;
+            const secs = Math.floor(diff / 1000);
+            const millis = `${(diff % 1000)}`.padStart(3, '0');
+            const el = document.getElementById("timer");
+            el.innerHTML = `${secs}:${millis}`;
+
+        }
+
+        function start() {
+            startTime = Date.now();
+            document.getElementById("stop-button").style.display = "inline-block";
+            document.getElementById("start-button").style.display = "none";
+            tickInterval = setInterval(tick, 10)
+
+            const el = document.getElementById("timer");
+            el.style.color = "black";
+        }
+
+        function stop() {
+            const diff = Date.now() - startTime;
+            const secs = Math.floor(diff / 1000);
+            const millis = `${(diff % 1000)}`.padStart(3, '0');
+            document.getElementById("stop-button").style.display = "none";
+            document.getElementById("start-button").style.display = "inline-block";
+            clearInterval(tickInterval);
+            const el = document.getElementById("timer");
+            el.innerHTML = `${secs}:${millis}`;
+            if (secs > 1 || millis < 900) {
+                el.style.color = "red";
+                current = 0;
+            }
+            else {
+                el.style.color = "green";
+                current++;
+            }
+            updateText();
+        }
+
+        function updateText() {
+            high = Math.max(current, high);
+            document.getElementById("current").innerHTML = current;
+            document.getElementById("high").innerHTML = high;
+        }
+    </script>
+    <style>
+        body {
+            background-color: #aedccb;
+            overflow: hidden;
+            font-size: 1.25em;
+        }
+
+        p
+        {
+            margin: .5em 0;
+            /* margin-top: .5em; */
+            /* padding: 0; */
+        }
+
+        #content {
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid black;
+            border-radius: 1em;
+            box-shadow: 0px 0px 10px 10px grey;
+            padding: 0 1em;
+            background-color: #f2e8d0;
+        }
+        #stopwatch
+        {
+            text-align: center;
+        }
+        #timer
+        {
+            font-size: 3em;
+            padding: 0;
+            margin: .2em;
+            font-family: 'Courier New', Courier, monospace;
+            
+        }
+
+        button
+        {
+            font-size: 1.5em;
+            border-radius: 1em;
+            padding: .5em;
+            width: 100%;
+        }
+
+        h1
+        {
+            text-align: center;
+        }
+
+        #scores
+        {
+            display: flex;
+        }
+
+
+        .high-score
+        {
+            flex-grow: 1;            
+            text-align: right;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="content">
+            <h1>Stop Watch Game</h1>
+            <p>
+                <b>How to play</b>: Click start! Then, click stop! 
+            </p>
+            <p>
+                <b>Objective:</b> Stop at exactly 1 second without going over!
+            </p>
+            <p>
+                <b>Scoring:</b> If you are within 100 milliseconds, you score a
+                point. Otherwise, your score resets. How many points can you
+                score?
+            </p>
+            
+            <div id="stopwatch">
+                <p id="timer" class="timer">0:000</p>
+
+                <button id="start-button" onclick="start()">Start!</button>
+                <button id="stop-button" onclick="stop()" style="display: none;">Stop!</button>
+                <div id="scores">
+                    <p class="current-score">Current Score: <span id="current">0</span></p> 
+                    <p class="high-score">High Score: <span id="high">0</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
