@@ -37,7 +37,7 @@
             clearInterval(tickInterval);
             const el = document.getElementById("timer");
             el.innerHTML = `${secs}:${millis}`;
-            if (secs > 1 || millis < 900) {
+            if (diff > 1000 || diff < 900) {
                 el.style.color = "red";
                 current = 0;
             }
@@ -53,6 +53,7 @@
             document.getElementById("current").innerHTML = current;
             document.getElementById("high").innerHTML = high;
         }
+
     </script>
     <style>
         body {
@@ -116,6 +117,7 @@
             flex-grow: 1;            
             text-align: right;
         }
+
 
     </style>
 </head>
